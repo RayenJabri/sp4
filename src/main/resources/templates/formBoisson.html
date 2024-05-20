@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<link rel="stylesheet"
+type="text/css"href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+<meta charset="utf-8">
+<title>Ajout des Produits</title>
+</head>
+<body>
+<div th:replace="template"></div>
+<div class="container mt-5">
+<div class="card">
+	<div class="card-header" th:if="${mode=='new'}"> Ajout des Boissons </div>
+	<div class="card-header" th:if="${mode=='edit'}">Modification des Boissons </div>
+<div class="card-body">
+	<form th:action="@{saveBoisson}" method="post">
+		<div class="form-group">
+		<label class="control-label" hidden>ID 	Boisson :</label>
+		 <input type="hidden" name="idBoisson" class="form-control"th:value="${boisson.idBoisson}" />
+		</div>
+	<div class="form-group">
+	 <label class="control-label">Nom Boisson :</label>
+	 <input type="text" name="nomBoisson" class="form-control"th:value= "${boisson.nomBoisson}"/>
+	<span th:errors= ${boisson.nomBoisson} class="text-danger"> </span>
+	</div>
+	<div class="form-group">
+	<label class="control-label">Prix Boisson :</label>
+	<input type="text" name="prixBoisson" class="form-control"th:value="${boisson.prixBoisson}" />
+	<span th:errors= ${boisson.prixBoisson} class="text-danger"> </span>
+	</div>
+	<div class="form-group">
+	<label class="control-label">Type :</label>
+	<select name="type" class="form-control"th:value="${boisson.type.idType}"th:if="${!#strings.isEmpty(boisson.type)}" >
+	<option th:each="t:${types}" th:if="${mode=='edit'}" th:value="${t.idtype}" th:text="${t.nomType}"th:selected="${t.idType==boisson.type.idType}">
+	</option>
+	</select>
+	<select name="type" class="form-control"th:if="${#strings.isEmpty(boisson.type)}">
+	<option th:each="t:${types}"th:value="${t.idType}"th:text="${t.nomType}">
+	</option>
+	</select>
+	</div>
+	</div>
+	<div>
+	<button type="submit" class="btn btn-primary">Valider</button>
+	</div>
+	</form>
+</div>
+ </div>
+ </div>
+</body>
+</html>
